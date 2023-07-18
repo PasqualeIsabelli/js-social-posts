@@ -90,11 +90,12 @@ const containerPosts = document.getElementById("container");
 
 // Invoco le funzioni
 generatePosts();
+getTransformDate();
 
 
-// FUNCTION: Genero i post dell'HTML
+// FUNCTION (MILESTONE 1 E 2): Genero i post dell'HTML
 function generatePosts() {
-  // CICLO
+  // CICLO FOR
   for (let i = 0; i < postsArray.length; i++) {
     // VARIABILI: Creovariabili che prendono i dati presenti nell'array dei post
     let nameUser = postsArray[i].author.name;
@@ -124,7 +125,7 @@ function generatePosts() {
                                     <div class="post__footer">
                                       <div class="likes js-likes">
                                         <div class="likes__cta">
-                                          <a class="like-button  js-like-button" href="#" data-postid="1">
+                                          <a class="like-button  js-like-button" href="#a" data-postid="1">
                                             <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                                             <span class="like-button__label">Mi Piace</span>
                                           </a>
@@ -142,8 +143,8 @@ function generatePosts() {
 // Dichiaro il valore false alla variabile che rappresenta il click sul button like
 let clickedLike = false;
 
-// FOR-EACH: Creo la funzione per 
-postsArray.forEach((element, i) => {
+// FOR-EACH (MILESTONE 3 E BONUS 3): Creo la funzione per 
+postsArray.forEach((el, i) => {
   // Variabile: Creo variabile che prende tutti i button dei post
   let likeBtn = document.querySelectorAll(".js-like-button");
   // Richiamo il valore del numero di like per post
@@ -167,4 +168,29 @@ postsArray.forEach((element, i) => {
     }
   });
 });
+
+// FUNCTION (BONUS 1): Inverto l'ordine di giorno mese ed anno della data per portarla al formato italiano
+function getTransformDate () {
+  // Variabile: Creo una variabile vuota per la data al rovescio
+  let reverseDate;
+  // CICLO FOR
+  for (let i = 0; i < postsArray.length; i++) {
+    // Richiamo la data all'interno del ciclo
+    let datePost = postsArray[i].date;
+    // Inserisco gli elementi della data (anno, mese e giorno) all'interno di un array
+    let arrayDate =datePost.split("-");
+    // Rovescio l'ordine degli indici dell'array
+    let reverseArrayDate = arrayDate.reverse();
+    // Rimuovo gli elementi dell'array dall'array stesso
+    reverseDate = reverseArrayDate.join("-");
+    console.log(reverseDate);
+    // Richiamo l'elemento contenente la data dall'HTML
+    let date = document.querySelectorAll(".post-meta__time")
+    // Cambio la data all'interno di HTML
+    date[i].innerHTML = reverseDate;
+  }
+};
+
+// FUNCTION (BONUS 2): ...
+
 
