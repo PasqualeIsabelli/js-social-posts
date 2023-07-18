@@ -25,3 +25,146 @@ BONUS
 3. Al click su un pulsante “Mi Piace” di un post, se abbiamo già cliccato dobbiamo decrementare il contatore e cambiare il colore del bottone.
 */
 
+
+// Array contenente le informazioni dei post
+const postsArray = [
+  {
+    "id": 1,
+    "author": {
+      "name": "Phil Mangione",
+      "image": "https://unsplash.it/300/300?image=15"
+    },
+    "date": "2021-06-25",
+    "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
+    "media": "https://unsplash.it/600/300?image=171",
+    "likes": 80
+  },
+  {
+    "id": 2,
+    "author": {
+      "name": "Sofia Perlari",
+      "image": "https://unsplash.it/300/300?image=10"
+    },
+    "date": "2021-09-03",
+    "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
+    "media": "https://unsplash.it/600/400?image=112",
+    "likes": 120
+  },
+  {
+    "id": 3,
+    "author": {
+      "name": "Chiara Passaro",
+      "image": "https://unsplash.it/300/300?image=20"
+    },
+    "date": "2021-05-15",
+    "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
+    "media": "https://unsplash.it/600/400?image=234",
+    "likes": 78
+  },
+  {
+    "id": 4,
+    "author": {
+      "name": "Luca Formicola",
+      "image": null
+    },
+    "date": "2021-04-03",
+    "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
+    "media": "https://unsplash.it/600/400?image=24",
+    "likes": 56
+  },
+  {
+    "id": 5,
+    "author": {
+      "name": "Alessandro Sainato",
+      "image": "https://unsplash.it/300/300?image=29"
+    },
+    "date": "2021-03-05",
+    "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
+    "media": "https://unsplash.it/600/400?image=534",
+    "likes": 95
+  }
+];
+
+// Prendo il container dei post dall'HTML
+const containerPosts = document.getElementById("container");
+
+// Invoco le funzioni
+generatePosts();
+
+
+// FUNCTION: Genero i post dell'HTML
+function generatePosts() {
+  // CICLO
+  for (let i = 0; i < postsArray.length; i++) {
+    // VARIABILI: Creovariabili che prendono i dati presenti nell'array dei post
+    let nameUser = postsArray[i].author.name;
+    let imageUser = postsArray[i].author.image;
+    let datePost = postsArray[i].date;
+    let contentPost = postsArray[i].content;
+    let mediaPost = postsArray[i].media;
+    let likesPost = postsArray[i].likes;
+
+    // Aggiungo all'interno dell'elemento preso dall'HTML il post
+    containerPosts.innerHTML += `<div class="post">
+                                    <div class="post__header">
+                                      <div class="post-meta">
+                                        <div class="post-meta__icon">
+                                          <img class="profile-pic" src="${imageUser}" alt="${nameUser}">
+                                        </div>
+                                        <div class="post-meta__data">
+                                          <div class="post-meta__author">${nameUser}</div>
+                                          <div class="post-meta__time">${datePost}</div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="post__text">${contentPost}</div>
+                                    <div class="post__image">
+                                      <img src="${mediaPost}" alt="media-image">
+                                    </div>
+                                    <div class="post__footer">
+                                      <div class="likes js-likes">
+                                        <div class="likes__cta">
+                                          <a class="like-button  js-like-button" href="#" data-postid="1">
+                                            <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
+                                            <span class="like-button__label">Mi Piace</span>
+                                          </a>
+                                        </div>
+                                        <div class="likes__counter">
+                                          <span>Piace a <b id="like-counter-1" class="js-likes-counter">${likesPost}</b> persone</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>`
+  }
+}
+
+
+// Dichiaro il valore false alla variabile che rappresenta il click sul button like
+let clickedLike = false;
+
+// FOR-EACH: Creo la funzione per 
+postsArray.forEach((element, i) => {
+  // Variabile: Creo variabile che prende tutti i button dei post
+  let likeBtn = document.querySelectorAll(".js-like-button");
+  // Richiamo il valore del numero di like per post
+  let likesPost = postsArray[i].likes;
+  // Variabile: Creo variabile che prendere tutti i contatori dei like dei post
+  let likeCount = document.querySelectorAll(".js-likes-counter");
+
+  // SCATENO EVENTO AL CLICK: Click sul button "Mi Piace"
+  likeBtn[i].addEventListener("click", function() {
+    // Condizione: Se clicco sul button like cambia il colore e incrementa il numero di like altrimenti il colore ritorna come prima e decrementa il numero di like
+    if (clickedLike === false) {
+      clickedLike = true;
+      likeBtn[i].classList.add("like-button--liked");
+      likesPost++;
+      likeCount[i].innerHTML = likesPost;
+    } else {
+      clickedLike = false;
+      likeBtn[i].classList.remove("like-button--liked");
+      likesPost--;
+      likeCount[i].innerHTML = likesPost;
+    }
+  });
+});
+
